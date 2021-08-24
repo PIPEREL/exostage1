@@ -12,10 +12,10 @@
         padding: 2px 6px;
     }
 </style>
-{% for messages in app.flashes('verify_email_success') %}
+{% for message in app.flashes('success') %}
 <div class="alert alert-success" role="alert">{{ message }}</div>
 {% endfor %}
 <div class="example-wrapper">
-    <h1>Hello world! </h1>
+    <h1>home</h1>
 </div>
 {% endblock %}

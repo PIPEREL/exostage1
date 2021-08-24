@@ -1,0 +1,9 @@
+{% extends 'users.html.twig' %} {% block title %}Register{% endblock %} {% block body %} {% for flashError in app.flashes('verify_email_error') %}
+<div class="alert alert-danger" role="alert">{{ flashError }}</div>
+{% endfor %}
+
+<h1>edit</h1>
+
+{{ form_start(form) }} {{ form_row(form.name) }} {{ form_row(form.firstname) }}
+
+<button type="submit" class="btn">Register</button> {{ form_end(form) }} {% endblock %}

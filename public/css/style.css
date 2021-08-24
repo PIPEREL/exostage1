@@ -12,7 +12,8 @@
 }
 
 .wrapper .sidebar {
-    width: 200px;
+    margin-top: 70px;
+    width: 175px;
     height: 100%;
     background: #212529;
     padding: 30px 0px;
@@ -26,7 +27,12 @@
     margin-bottom: 30px
 }
 
+.wrapper .sidebar ul {
+    padding-left: 0;
+}
+
 .wrapper .sidebar ul li {
+    margin-left: 0.75rem;
     padding: 15px;
     border-bottom: 1px solid #bdb8d7;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
@@ -73,6 +79,7 @@
 }
 
 .wrapper .main_content {
+    margin-top: 75px;
     width: 100%;
     margin-left: 250px
 }

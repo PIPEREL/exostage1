@@ -98,25 +98,19 @@ class UsersController extends AbstractController
 
 
   
-    #[Route('/annonces/deleteimg/{id}', name: 'users_delete_image')]
-    public function deleteimg(Image $img, Request $request)
+    #[Route('/annonces/deleteimg/{id}', name: 'annonce_delete_image')]
+    public function deleteimg(Image $img, Request $request): Response
     {
-        $data = json_decode($request->getContent(), true);
-        if($this->isCsrfTokenValid('delete'.$img->getId(), $data['_token'])){
+        if($this->isCsrfTokenValid('delete'.$img->getId(),$request->request->get('_token'))){
             $nom = $img->getName();
             unlink($this->getParameter('annonces_folder').'/'.$nom);
             $em=$this->getDoctrine()->getManager();
             $em->remove($img);
             $em->flush();
             
-        return new JsonResponse(['success', 1]);
-        }else{
-            return new JsonResponse(['error'=> "token invalide"], 400);
         }
+        return $this->redirectToRoute('users_edit_annonces', array('id'=> $img->getAnnonces()->getId() ) , Response::HTTP_SEE_OTHER);
     }
-
-
-
 
 
 

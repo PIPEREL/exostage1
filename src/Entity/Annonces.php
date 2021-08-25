@@ -64,9 +64,15 @@ class Annonces
      */
     private $images;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Users::class, inversedBy="favoris")
+     */
+    private $favoris;
+
     public function __construct()
     {
         $this->images = new ArrayCollection();
+        $this->favoris = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -171,6 +177,30 @@ class Annonces
                 $image->setAnnonces(null);
             }
         }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Users[]
+     */
+    public function getFavoris(): Collection
+    {
+        return $this->favoris;
+    }
+
+    public function addFavori(Users $favori): self
+    {
+        if (!$this->favoris->contains($favori)) {
+            $this->favoris[] = $favori;
+        }
+
+        return $this;
+    }
+
+    public function removeFavori(Users $favori): self
+    {
+        $this->favoris->removeElement($favori);
 
         return $this;
     }

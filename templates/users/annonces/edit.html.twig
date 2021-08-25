@@ -8,8 +8,10 @@
         {% for image in annonce.images %}
         <div>
             <img src="{{asset('uploads/images/annonces/' ~ image.name)}}" width="150">
-            <a href="{{path('users_delete_image',{'id': image.id})}}" data-delete data-token="{{csrf_token('delete' ~ image.id)}}">delete</a>
+            <a href="{{path('users_delete_image',{'id': image.id})}}" data-delete data-token="{{ csrf_token('delete' ~ image.id) }}">delete</a>
         </div>{% endfor %}
     </div>
 </div>
-{% endblock %}
+
+{% endblock %} {% block javascripts %}
+<script src="{{asset('js/images.js')}}"></script> {% endblock %}

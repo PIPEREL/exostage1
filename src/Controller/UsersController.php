@@ -9,6 +9,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsersController extends AbstractController
 {
@@ -65,6 +66,28 @@ class UsersController extends AbstractController
         return $this->render('users/editprofile.html.twig', [
             "form" => $form->createView(),
 
+        ]);
+    }
+    
+
+    #[Route('/user/editpassword', name: 'users_pass_modifier')]
+    public function editpass(Request $request, UserPasswordEncoderInterface $passwordEncoder)
+    {
+        if($request->isMethod('POST')){
+            $user = $this->getUser();
+            if($request->request->get('password') == $request->request->get('password2')){
+            $user->setPassword($passwordEncoder->encodePassword($user, $request->request->get('password')));
+            $em= $this->getDoctrine()->getManager();
+            $em->persist($user);
+            $em->flush();
+            $this->addFlash('message', 'Mot de passe mis a jour avec succès');
+            return $this->redirectToRoute('users');
+            }else{
+                $this->addFlash('verify_password_error', 'les deux mots de passe ne sont pas identiques');
+            }
+        }
+      
+        return $this->render('users/editmdp.html.twig', [
         ]);
     }
     

@@ -1,8 +1,5 @@
-{% extends 'base.html.twig' %} {% block title %}Hello MainController!{% endblock %} {% block body %}
-
+{% extends 'base.html.twig' %} {% block title %} detail annonce!{% endblock %} {% block body %}
 <div class="d-flex flex-wrap justify-content-center gap-1 mt-2  ">
-    {% for annonce in annonces %}
-
     <div class="card" style="width: 18rem;">
         <h5 class="card-title text-center">{{annonce.title }} </h5>
         {# <img {% if annonce.images|length> 0 %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name)|imagine_filter('square') }} " {% endif %} class="card-img-top text-center" width="" alt="coucou"> #}
@@ -13,6 +10,4 @@
         </div>
     </div>
 
-
-    {% endfor %}
-</div> {% endblock %}
+    {% endblock %}

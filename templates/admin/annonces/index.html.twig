@@ -1,5 +1,5 @@
-{% extends 'base.html.twig' %} {% block title %}Gerer les annonces!{% endblock %} {% block body %}
-
+{% extends 'base.html.twig' %} {% block title %}Gerer les annonces!{% endblock %} {% block body %} {% for message in app.flashes('message') %}
+<div class="alert alert-danger" role="alert">{{ message }}</div>{% endfor %}
 <div class="example-wrapper">
     <h1>Gérer les annonces</h1>
     <table class="table table-dark table-hover table-striped">
@@ -24,22 +24,26 @@
                         <label class="form-check-label" for="flexSwitchCheckCheckedDisabled"></label>
                     </div>
                 </td>
-                {#
-                <td class="text-center"> <a href="{{path('admin_annonces_modifier', {'id': annonce.id})}}" class="btn btn-primary w-50">delete</a></td> #}
+                <td><button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                   delete
+                  </button> </td>
             </tr>
-            {% endfor %}
+            {% include "admin/annonces/annonce_delete_modal.html.twig" %} {% endfor %}
         </tbody>
     </table>
 </div>
-
-
-{% endblock %} {% block javascripts %}
+{# <a href="{{path('admin_annonces_modifier', {'id': annonce.id})}}" class="btn btn-primary w-50">delete</a> #} {% endblock %} {% block javascripts %}
 <script>
     window.onload = () => {
         let activer = document.querySelectorAll("[type=checkbox]")
         for (let bouton of activer) {
             bouton.addEventListener("click", function() {
                 let xmlhttp = new XMLHttpRequest;
+
+                // xmlhttp.onreadystatechange = () => {
+
+                // } #}
+
                 xmlhttp.open("get", `annonces/switch/${this.dataset.id}`)
                 xmlhttp.send()
             })

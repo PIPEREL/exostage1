@@ -1,0 +1,15 @@
+{% extends 'users.html.twig' %} {% block title %}editer{% endblock %} {% block body %}
+
+<div class="example-wrapper">
+    <h1>editer une annonce</h1>
+    {{form(form)}}
+    <h2>Images</h2>
+    <div class="d-flex flex-column gap-3">
+        {% for image in annonce.images %}
+        <div>
+            <img src="{{asset('uploads/images/annonces/' ~ image.name)}}" width="150">
+            <a href="{{path('users_delete_image',{'id': image.id})}}" data-delete data-token="{{csrf_token('delete' ~ image.id)}}">delete</a>
+        </div>{% endfor %}
+    </div>
+</div>
+{% endblock %}

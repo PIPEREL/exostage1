@@ -29,7 +29,9 @@
 <div class="container w-75 d-flex mt-3  p-3 flex-column gap-3  ">
     {% for annonce in app.user.annonces %}
     <div class="d-flex justify-content-around">
-        <div>titre:</div>
-        <div>{{annonce.title}}</div>
+        <div class="w-25">titre:</div>
+        <div class="w-50">{{annonce.title}}</div>
+        <div class="w-25">
+            <a href="{{path('users_edit_annonces', {'id': annonce.id})}}"><button class="btn btn-primary">modifier</button></a></div>
     </div>
     {% endfor %} {% endblock %}

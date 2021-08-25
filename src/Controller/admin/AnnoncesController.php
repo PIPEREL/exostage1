@@ -21,8 +21,30 @@ class AnnoncesController extends AbstractController
         ]);
     }   
     
+    #[Route('/admin/annonces/switch/{id}', name: 'admin_annonces_activer')]
+    public function activerannonce(Annonces $annonce, Request $request)
+    {
+        $annonce->setActive($annonce->getActive()?false:true);
+
+        $em = $this->getDoctrine()->getManager();
+        $em->persist($annonce);
+        $em->flush();
+        return new Response("true");
+    }    
     
-    // #[Route('/admin/annoncess/ajout', name: 'admin_annonces_ajout')]
+    
+    #[Route('/admin/annonces/supprimer/{id}', name: 'admin_annonces_supprimer')]
+    public function supprimerAnnonce(Annonces $annonce)
+    {
+
+        $em = $this->getDoctrine()->getManager();
+        $em->remove($annonce);
+        $em->flush();
+        $this->addFlash('message', 'annonce supprimée avec succès');
+        return $this->redirectToRoute("admin_annonces_home");
+    }
+
+      // #[Route('/admin/annoncess/ajout', name: 'admin_annonces_ajout')]
     // public function ajoutannonces(Request $request)
     // {
     //     $annonces = new Annonces;
@@ -63,14 +85,5 @@ class AnnoncesController extends AbstractController
     //     ]);
     // }
 
-    #[Route('/admin/annonces/switch/{id}', name: 'admin_annonces_activer')]
-    public function activerannonce(Annonces $annonce, Request $request)
-    {
-        $annonce->setActive($annonce->getActive()?false:true);
 
-        $em = $this->getDoctrine()->getManager();
-        $em->persist($annonce);
-        $em->flush();
-        return new Response("true");
-    }
 }

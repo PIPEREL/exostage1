@@ -1,13 +1,36 @@
 {% extends 'base.html.twig' %} {% block title %} detail annonce!{% endblock %} {% block body %}
-<div class="d-flex flex-wrap justify-content-center gap-1 mt-2  ">
-    <div class="card" style="width: 18rem;">
-        <h5 class="card-title text-center">{{annonce.title }} </h5>
-        {# <img {% if annonce.images|length> 0 %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name)|imagine_filter('square') }} " {% endif %} class="card-img-top text-center" width="" alt="coucou"> #}
-        <img {% if annonce.images|length> 0 %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name) }} " {% endif %} class="card-img-top text-center" width="18rem" style="height: 15rem;" alt="coucou">
-        <div class="card-body">
-            <p class="card-text">Categories : {{annonce.categories.name}}</p>
-            <p class="card-text"> {{annonce.content|striptags|u.truncate(50,true,'...') }}</p>
+<div class="d-flex justify-content-center mt-5">
+    <div id="carouselExampleControls" class="carousel slide w-50" data-bs-ride="carousel">
+        <div class="carousel-inner">
+            {% for img in annonce.images %} {% if loop.first %}
+            <div class="carousel-item active">
+                {% else %}
+                <div class="carousel-item">
+                    {% endif %} <img src="{{asset(('uploads/images/annonces/' ~ img.name)|imagine_filter('banniere')) }} " class="d-block w-100" alt="..."> {# <img src="{{asset('uploads/images/annonces/' ~ img.name)}} " class="d-block w-100" style="height: 200px;"
+                        alt="..."> #}
+                </div>
+                {% endfor %}
+            </div>
+            <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Previous</span>
+    </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Next</span>
+    </button>
         </div>
     </div>
 
-    {% endblock %}
+    <div class="d-flex flex-wrap justify-content-center gap-1 mt-2  ">
+        <div class="card" style="width: 18rem;">
+            <h5 class="card-title text-center">{{annonce.title}} </h5>
+            <img {% if annonce.images|length> 0 %} src="{{asset(('uploads/images/annonces/' ~ annonce.images[0].name)|imagine_filter('square')) }} " {% endif %} class="card-img-top text-center" width="" alt="coucou"> {# <img {% if annonce.images|length>0
+            %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name) }} " {% endif %} class="card-img-top text-center" width="18rem" style="height: 15rem;" alt="coucou"> #}
+            <div class="card-body">
+                <p class="card-text">Categories : {{annonce.categories.name}}</p>
+                <p class="card-text"> {{annonce.content|striptags|u.truncate(50,true,'...') }}</p>
+            </div>
+        </div>
+
+        {% endblock %}

@@ -1,4 +1,5 @@
-{% extends 'base.html.twig' %} {% block title %} detail annonce!{% endblock %} {% block body %}
+{% extends 'base.html.twig' %} {% block title %} detail annonce!{% endblock %} {% block body %} {% for message in app.flashes('message') %}
+<div class="alert alert-success" role="alert">{{ message }}</div>{% endfor %}
 <div class="d-flex justify-content-center mt-5">
     <div id="carouselExampleControls" class="carousel slide w-50" data-bs-ride="carousel">
         <div class="carousel-inner">
@@ -30,7 +31,26 @@
             <div class="card-body">
                 <p class="card-text">Categories : {{annonce.categories.name}}</p>
                 <p class="card-text"> {{annonce.content|striptags|u.truncate(50,true,'...') }}</p>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalcontact">
+                    contacter le vendeur
+                   </button> </td>
+                </tr>
+                {% include "annonces/contactmodal.html.twig" %}
             </div>
         </div>
 
-        {% endblock %}
+
+        {% block javascript %}
+        <script>
+            window.onload = () => {
+                document.querySelector("#annonce_contact_title").value = "{{ annonce.title }}";
+                document.querySelector("#annonce_contact_email").value = "{% if app.user %} {{ app.user.email}} {% endif %}";
+                // On met un écouteur d'évènements sur tous les boutons répondre
+                document.querySelectorAll("[data-reply]").forEach(element => {
+                    element.addEventListener("click", function() {
+                        document.querySelector("#comments_parentid").value = this.dataset.id;
+                    });
+                });
+            }
+        </script>
+        {% endblock %} {% endblock %}

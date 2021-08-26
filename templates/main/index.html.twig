@@ -1,31 +1,34 @@
 {% extends 'base.html.twig' %} {% block title %}Hello MainController!{% endblock %} {% block body %}
-<div class="d-flex flex-wrap justify-content-center gap-1 mt-2 ">
-    {% for annonce in annonces %}
-
-    <div class="card" style="width: 18rem;">
-        <div class="d-flex justify-content-center gap-3 align-items-center">
-
-            {% if is_granted("ROLE_USER") %} {% set isFavorite = false %} {% for favoris in annonce.favoris %} {% if favoris.id == app.user.id %} {% set isFavorite = true %} {% endif %} {% endfor %} {% if isFavorite %}
-            <i class="fas fa-heart"></i></a>
-            {% else %}
-            <i class="far fa-heart"></i></a>
-            {% endif %} {% else %}
-            <i class="far fa-heart"></i> {% endif %}
-            <a class="text-decoration-none text-gray-500" style="color: black;" href="{{path('annonce_details', {'slug': annonce.slug})}}">
-                <h5 class="card-title text-center">{{annonce.title }} </h5>
-            </a>
-        </div>
-        <a class="text-decoration-none text-gray-500" style="color: black;" href="{{path('annonce_details', {'slug': annonce.slug})}}">
-            <img {% if annonce.images|length> 0 %} src="{{asset(('uploads/images/annonces/' ~ annonce.images[0].name)|imagine_filter('square')) }} " {% endif %} class="card-img-top text-center" width="" alt="coucou">
-        </a> {# <img {% if annonce.images|length> 0 %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name) }} " {% endif %} class="card-img-top text-center" width="18rem" style="height: 15rem;" alt="coucou"> #}
-
-
-        <div class="card-body">
-            <p class="card-text">Categories : {{annonce.categories.name}}</p>
-            <p class="card-text"> {{annonce.content|striptags|u.truncate(50,true,'...') }}</p>
-        </div>
+<div class="container d-flex flex-column">
+    <div class="text-center">
+        {{form(form)}}
     </div>
+    <div class="d-flex flex-wrap justify-content-center gap-1 mt-2 ">
+
+        {% for annonce in annonces %}
+
+        <div class="card" style="width: 18rem;">
+            <div class="d-flex justify-content-center gap-3 align-items-center">
+                {% if is_granted("ROLE_USER") %} {% set isFavorite = false %} {% for favoris in annonce.favoris %} {% if favoris.id == app.user.id %} {% set isFavorite = true %} {% endif %} {% endfor %} {% if isFavorite %}
+                <a href="{{ path('retrait_favoris', {id: annonce.id}) }}"><i class="fas fa-heart text-danger"></i></a> {% else %}
+                <a href="{{ path('ajout_favoris', {id: annonce.id}) }}"><i class="far fa-heart"></i></a> {% endif %} {% else %}
+                <i class="far fa-heart"></i> {% endif %}
+                <a class="text-decoration-none text-gray-500" style="color: black;" href="{{path('annonce_details', {'slug': annonce.slug})}}">
+                    <h5 class="card-title text-center">{{annonce.title }} </h5>
+                </a>
+            </div>
+            <a class="text-decoration-none text-gray-500" style="color: black;" href="{{path('annonce_details', {'slug': annonce.slug})}}">
+                <img {% if annonce.images|length> 0 %} src="{{asset(('uploads/images/annonces/' ~ annonce.images[0].name)|imagine_filter('square')) }} " {% endif %} class="card-img-top text-center" width="" alt="coucou">
+            </a> {# <img {% if annonce.images|length> 0 %} src="{{asset('uploads/images/annonces/' ~ annonce.images[0].name) }} " {% endif %} class="card-img-top text-center" width="18rem" style="height: 15rem;" alt="coucou"> #}
 
 
-    {% endfor %}
+            <div class="card-body">
+                <p class="card-text">Categories : {{annonce.categories.name}}</p>
+                <p class="card-text"> {{annonce.content|striptags|u.truncate(50,true,'...') }}</p>
+            </div>
+        </div>
+
+
+        {% endfor %}
+    </div>
 </div> {% endblock %}

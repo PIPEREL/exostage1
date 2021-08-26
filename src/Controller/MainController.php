@@ -12,7 +12,7 @@ class MainController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(AnnoncesRepository $annoncesRepository): Response
     {
-        $annonce = $annoncesRepository->findby(['active'=>true], ['created_at' => "desc"]);
+        $annonce = $annoncesRepository->findby(['active'=>true], ['created_at' => "desc"], 5);
         return $this->render('main/index.html.twig', [
             "annonces" => $annonce
         ]);

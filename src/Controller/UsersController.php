@@ -23,6 +23,16 @@ class UsersController extends AbstractController
         ]);
     } 
     
+
+    #[Route('/users/data', name: 'users_data')]
+    public function userdata(): Response
+    {
+        return $this->render('users/data.html.twig', [
+            
+        ]);
+    } 
+
+
     #[Route('/annonces/ajouter', name: 'users_ajouter_annonces')]
     public function ajouterAnnonces(Request $request)
     {

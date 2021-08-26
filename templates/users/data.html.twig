@@ -1,0 +1,27 @@
+{% extends 'users.html.twig' %} {% block title %}Page utilisateur!{% endblock %} {% block body %}
+<h3 class="pl-2 mt-3">données personnelles de {{app.user.name}} {{app.user.firstname}}</h3>
+<div class="w-25">
+    <a href=""><button
+            class="btn btn-primary ">telecharger les données</button></a>
+</div>
+<h3 class="pl-2 mt-3 ">Articles de {{app.user.name}} {{app.user.firstname}}</h3>
+<div class="container w-100 d-flex mt-3 p-3 flex-column gap-3 ">
+    {% for annonce in app.user.annonces %}
+    <div class="d-flex justify-content-around ">
+        <div class="w-25 ">titre:</div>
+        <div class="w-50 ">{{annonce.title}}</div>
+        <div class="w-25 ">titre:</div>
+        <div class="w-50 ">{{annonce.content|u.truncate(15,'...')}}</div>
+        <div class="w-25 ">image:</div>
+        {% for image in annonce.images %}
+        <div>
+            <img {% if annonce.images|length> 0 %} src="{{asset(( 'uploads/images/annonces/' ~ image.name)|imagine_filter( 'square')) }} " {% endif %} class="card-img-top text-center " width=" " alt="coucou ">
+        </div>
+        {% endfor %}
+        <div class="w-25 ">
+            <a href="{{path( 'users_edit_annonces', { 'id': annonce.id})}} "><button
+                    class="btn btn-primary ">modifier</button></a>
+        </div>
+    </div>
+
+    {% endfor %} {% endblock %}

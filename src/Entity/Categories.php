@@ -46,6 +46,11 @@ class Categories
      */
     private $annonces;
 
+    /**
+     * @ORM\Column(type="string", length=20, nullable=true)
+     */
+    private $color;
+
 
     public function __toString()
     {
@@ -149,6 +154,18 @@ class Categories
                 $annonce->setCategories(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getColor(): ?string
+    {
+        return $this->color;
+    }
+
+    public function setColor(?string $color): self
+    {
+        $this->color = $color;
 
         return $this;
     }

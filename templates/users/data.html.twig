@@ -1,9 +1,23 @@
 {% extends 'users.html.twig' %} {% block title %}Page utilisateur!{% endblock %} {% block body %}
 <h3 class="pl-2 mt-3">données personnelles de {{app.user.name}} {{app.user.firstname}}</h3>
 <div class="w-25">
-    <a href=""><button
-            class="btn btn-primary ">telecharger les données</button></a>
+    <a href="{{path('users_data_download')}}"><button class="btn btn-primary ">telecharger les données</button></a>
 </div>
+<div class="container w-50 d-flex mt-5  align-items-center p-3 flex-column gap-3 border rounded">
+    <div class="d-flex gap-2">
+        <div>Nom:</div>
+        <div>{{app.user.name}}</div>
+    </div>
+    <div class="d-flex gap-2">
+        <div>Prenom:</div>
+        <div>{{app.user.firstname}}</div>
+    </div>
+    <div class="d-flex gap-2">
+        <div>Email:</div>
+        <div>{{app.user.email}}</div>
+    </div>
+</div>
+
 <h3 class="pl-2 mt-3 ">Articles de {{app.user.name}} {{app.user.firstname}}</h3>
 <div class="container w-100 d-flex mt-3 p-3 flex-column gap-3 ">
     {% for annonce in app.user.annonces %}

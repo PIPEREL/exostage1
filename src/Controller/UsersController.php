@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use Dompdf\Dompdf;
+use Dompdf\Options;
 use App\Entity\Image;
 use App\Entity\Annonces;
 use App\Form\AnnoncesType;
@@ -9,8 +11,8 @@ use App\Form\EditProfileType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UsersController extends AbstractController
@@ -31,6 +33,38 @@ class UsersController extends AbstractController
             
         ]);
     } 
+
+
+    #[Route('/users/data/download', name: 'users_data_download')]
+    public function userdatadownload()
+    {
+       $pdfOptions = new Options;
+       $pdfOptions->set('defaultFont', 'Arial');
+       $pdfOptions->isRemoteEnabled(true);
+
+       $dompdf = new Dompdf($pdfOptions);
+       $context = stream_context_create([
+           'ssl'=>[
+               'verify_peer' => FALSE,
+               'verify_perr_name' => FALSE,
+               'allow_self_signed' => True
+           ]
+           ]);
+        $dompdf->setHttpContext($context);
+
+        $html = $this->renderView('users/download.html.twig');
+        $dompdf->loadhtml($html);
+        $dompdf->setPaper('A4', 'portrait');
+        $dompdf->render();
+
+        $fichier = 'user-data-'.$this->getUser()->getId().'.pdf';
+
+        $dompdf->stream($fichier, ['Attachment'=>true]);
+
+        return new Response();
+
+    } 
+
 
 
     #[Route('/annonces/ajouter', name: 'users_ajouter_annonces')]

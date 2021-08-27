@@ -4,6 +4,7 @@ namespace App\Controller\admin;
 
 use App\Entity\Categories;
 use App\Form\CategoriesType;
+use App\Repository\AnnoncesRepository;
 use App\Repository\CategoriesRepository;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -23,7 +24,7 @@ class AdminController extends AbstractController
 
 
     #[Route('/admin/statistiques', name: 'admin_stat')]
-    public function stats(CategoriesRepository $categoriesRepository): Response
+    public function stats(CategoriesRepository $categoriesRepository, AnnoncesRepository $annoncesRepository): Response
     {
         $categories = $categoriesRepository->findAll();
         $categNom = [];
@@ -36,12 +37,22 @@ class AdminController extends AbstractController
             $categCount[] = count($categorie->getAnnonces());
         }
 
+        $annonces = $annoncesRepository->countByDate();
 
+        $dates = []; 
+        $annoncesCount = [];
+
+        foreach($annonces as $annonce){
+            $dates[] = $annonce["dateAnnonces"];
+            $annoncesCount[] = $annonce['count'];
+        }
 
         return $this->render('admin/statistiques.html.twig', [
             'categNom' => json_encode($categNom),
             'categColor' => json_encode($categColor),
             'categCount' => json_encode($categCount),
+            'dates' => json_encode($dates),
+            'annoncesCount'=> json_encode($annoncesCount),
         ]);
     }   
     
